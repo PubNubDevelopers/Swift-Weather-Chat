@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -101,10 +102,25 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7lo-ME-M4e">
+                                <rect key="frame" x="20" y="831.5" width="30" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="7lo-ME-M4e" secondAttribute="height" id="ZgO-zz-3ZA"/>
+                                    <constraint firstAttribute="width" constant="30" id="jbq-D7-r1R"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <color key="tintColor" name="infoColor"/>
+                                <state key="normal" backgroundImage="paperplane.circle.fill" catalog="system"/>
+                                <connections>
+                                    <action selector="startChat:" destination="BYZ-38-t0r" eventType="touchUpInside" id="20M-GJ-PaE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="7lo-ME-M4e" firstAttribute="top" secondItem="d4N-6o-2T1" secondAttribute="top" id="0wU-5P-TCq"/>
+                            <constraint firstItem="7lo-ME-M4e" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="7Rr-3i-P3n"/>
                             <constraint firstItem="bhS-cf-UeP" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Gbh-9J-dAy"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="d4N-6o-2T1" secondAttribute="trailing" constant="20" id="H8G-Rh-mkg"/>
                             <constraint firstItem="B0P-Hg-SU5" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Okf-YP-rDp"/>
@@ -129,8 +145,9 @@
     </scenes>
     <resources>
         <image name="background" width="375" height="667"/>
-        <image name="cloud.bolt.rain.fill" catalog="system" width="128" height="128"/>
+        <image name="cloud.bolt.rain.fill" catalog="system" width="122" height="128"/>
         <image name="magnifyingglass.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="paperplane.circle.fill" catalog="system" width="128" height="121"/>
         <namedColor name="infoColor">
             <color red="0.95099997520446777" green="1" blue="0.66900002956390381" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

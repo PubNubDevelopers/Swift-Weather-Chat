@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,6 +19,8 @@
 		C8C7880827454A6B0009C9E0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C7880727454A6B0009C9E0 /* Constants.swift */; };
 		C8C7880A27455DBA0009C9E0 /* CurrentWeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C7880927455DBA0009C9E0 /* CurrentWeatherData.swift */; };
 		C8EE740E27465B290005ABBA /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EE740D27465B290005ABBA /* CurrentWeather.swift */; };
+		CBC2C037279238FD003BCD21 /* PubNubChat in Frameworks */ = {isa = PBXBuildFile; productRef = CBC2C036279238FD003BCD21 /* PubNubChat */; };
+		CBC2C039279238FD003BCD21 /* PubNubChatComponents in Frameworks */ = {isa = PBXBuildFile; productRef = CBC2C038279238FD003BCD21 /* PubNubChatComponents */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +45,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBC2C039279238FD003BCD21 /* PubNubChatComponents in Frameworks */,
+				CBC2C037279238FD003BCD21 /* PubNubChat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +145,10 @@
 			dependencies = (
 			);
 			name = Sun;
+			packageProductDependencies = (
+				CBC2C036279238FD003BCD21 /* PubNubChat */,
+				CBC2C038279238FD003BCD21 /* PubNubChatComponents */,
+			);
 			productName = Sun;
 			productReference = C8C787E12745245C0009C9E0 /* Sun.app */;
 			productType = "com.apple.product-type.application";
@@ -168,6 +176,9 @@
 				Base,
 			);
 			mainGroup = C8C787D82745245C0009C9E0;
+			packageReferences = (
+				CBC2C035279238FD003BCD21 /* XCRemoteSwiftPackageReference "chat-components-ios" */,
+			);
 			productRefGroup = C8C787E22745245C0009C9E0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -405,6 +416,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CBC2C035279238FD003BCD21 /* XCRemoteSwiftPackageReference "chat-components-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pubnub/chat-components-ios";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CBC2C036279238FD003BCD21 /* PubNubChat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CBC2C035279238FD003BCD21 /* XCRemoteSwiftPackageReference "chat-components-ios" */;
+			productName = PubNubChat;
+		};
+		CBC2C038279238FD003BCD21 /* PubNubChatComponents */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CBC2C035279238FD003BCD21 /* XCRemoteSwiftPackageReference "chat-components-ios" */;
+			productName = PubNubChatComponents;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		C8C787ED2745245C0009C9E0 /* Sun.xcdatamodeld */ = {
