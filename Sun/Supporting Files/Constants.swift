@@ -2,10 +2,11 @@
 //  Constants.swift
 //  Sun
 //
-//  Created by Геворг on 17.11.2021.
-//
 
 import Foundation
 
-let apiKey = "5874901f1b6e2a954701e352aac428d1"
+let apiKey = "" // Get from openweathermap.org
+
+let PUBNUB_PUBLISH_KEY = "pub-c-key" // "pub-c-key" // Get from Pubnub.com
+let PUBNUB_SUBSCRIBE_KEY = "sub-c-key" // "sub-c-key"
 

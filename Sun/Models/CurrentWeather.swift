@@ -2,8 +2,6 @@
 //  CurrentWeather.swift
 //  Sun
 //
-//  Created by Геворг on 18.11.2021.
-//
 
 import Foundation
 

@@ -2,8 +2,6 @@
 //  ViewController.swift
 //  Sun
 //
-//  Created by Геворг on 17.11.2021.
-//
 
 import UIKit
 import CoreLocation
@@ -11,25 +9,25 @@ import PubNub
 import PubNubChat
 import PubNubChatComponents
 
-let PUBNUB_PUBLISH_KEY = "pub-c-537af6b0-bad6-4ff9-84d2-8cd90bd77bc1" // "pub-c-key"
-let PUBNUB_SUBSCRIBE_KEY = "sub-c-bc933fc4-7584-11ec-87be-4a1e879706fb" // "sub-c-key"
-
 class ViewController: UIViewController {
     var chatProvider: PubNubChatProvider?
-    var defaultChannelId = "my-current-channel"
+    var channelId = "San Francisco" // Default channel
     var chatView: UIView!
-
     
     // Create PubNub Configuration
     lazy var pubnubConfiguration = {
       return PubNubConfiguration(
-        publishKey: PUBNUB_PUBLISH_KEY,
+        publishKey: PUBNUB_PUBLISH_KEY, // see Constants.swift to set PubNub API keys
         subscribeKey: PUBNUB_SUBSCRIBE_KEY,
-        uuid: UUID().uuidString
+        uuid: randomString(length: 6)
       )
     }()
     
-
+    func randomString(length: Int) -> String { // Used to create a random username/uuid for chat
+      let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+      return String((0..<length).map{ _ in letters.randomElement()! })
+    }
+    
     @IBOutlet weak var weatherIconImageView: UIImageView!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -50,77 +48,52 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func startChat(_ sender: UIButton) {
+    @IBAction func startChat(_ sender: UIButton) { // Show chat for current city / location
         chatView=UIView(frame: self.view.bounds)
-       // guard let windowScene = (scene as? UIWindowScene) else { return }
-        PubNub.log.levels = [.all]
-        PubNub.log.writers = [ConsoleLogWriter()]
-        
-        if chatProvider == nil {
-             // Create a new ChatProvider
-             let provider = PubNubChatProvider(
-               pubnubConfiguration: pubnubConfiguration
-             )
-             
-             // Preload Dummy Data
-           //  preloadData(provider)
-            
-            
-             
-             // Assign for future use
-             chatProvider = provider
-           }
-        chatProvider?.pubnubProvider.subscribe(.init(channels: [defaultChannelId], withPresence: true))
 
+        // PubNub.log.levels = [.all]
+        // PubNub.log.writers = [ConsoleLogWriter()]
         
-        guard let messageListViewModel = try? chatProvider?.messageListComponentViewModel(pubnubChannelId: "defaultChannelId") else {
+        guard let messageListViewModel = try! chatProvider?.messageListComponentViewModel(pubnubChannelId: channelId) else {
            preconditionFailure("Could not create intial view models")
-         }
-        
-        let button = UIButton(frame: CGRect(x: self.view.frame.size.width-120, y: 40, width: 100, height: 40))
-        button.backgroundColor = .black
-        button.setTitle("Close Chat", for: .normal)
-        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        }
 
-    
-        chatView.addSubview(messageListViewModel.configuredComponentView().view)
-        chatView.addSubview(button)
-        self.view.addSubview(chatView)
-    }
-    
-    @objc func buttonAction(sender: UIButton!) {
-        chatView.removeFromSuperview()
-        self.chatProvider!.pubnubProvider.unsubscribe(from: [defaultChannelId], and: [defaultChannelId], presenceOnly: false)
+        /*messageListViewModel.componentDidLoad = { (viewModel) in
+            let request = MessageHistoryRequest(channels: [self.channelId], limit: 10, start: nil)
+            viewModel?.provider.dataProvider.syncRemoteMessages(request, completion: nil)
+        }*/
         
+        let navigation = UINavigationController()
+        navigation.viewControllers = [messageListViewModel.configuredComponentView()]
+    
+        self.show(navigation, sender: nil)
     }
     
     func preloadData(_ chatProvider: PubNubChatProvider) {
         // Create a user object with UUID
-      /*  let user = PubNubChatUser(
+        let user = PubNubChatUser(
           id: chatProvider.pubnubConfig.uuid,
-          name: "You",
+          name: chatProvider.pubnubConfig.uuid,
           avatarURL: URL(string: "https://picsum.photos/seed/\(chatProvider.pubnubConfig.uuid)/200")
         )
         
         // Create a channel object
         let channel = PubNubChatChannel(
-          id: defaultChannelId,
-          name: "Default",
+          id: channelId,
+          name: channelId,
           type: "direct",
-          avatarURL: URL(string: "https://picsum.photos/seed/\(defaultChannelId)/200")
-        )*/
+          avatarURL: URL(string: "https://picsum.photos/seed/\(channelId)/200")
+        )
         
         // Create a membership between the User and the Channel for subscription purposes
-       // let membership = PubNubChatMember(channel: channel, member: user)
+        let membership = PubNubChatMember(channel: channel, member: user)
         
-        // Subscribe to the default channel
-       // chatProvider.pubnubProvider.subscribe(.init(channels: [defaultChannelId], withPresence: true))
+        // Subscribe to the channel
+        chatProvider.pubnubProvider.subscribe(.init(channels: [channelId], withPresence: true))
         
         // Fill database with the user, channel, and memberships data
-       // chatProvider.dataProvider.load(members: [membership])
+        chatProvider.dataProvider.load(members: [membership])
       }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,11 +106,24 @@ class ViewController: UIViewController {
         if CLLocationManager.locationServicesEnabled() {
             locationManager.requestLocation()
         }
+        
+        // Create a new ChatProvider
+        let provider = PubNubChatProvider(
+        pubnubConfiguration: pubnubConfiguration
+        )
+        // Preload Data
+        preloadData(provider)
+        // Assign for future use
+        chatProvider = provider
+
     }
     
     func updateInterfaceWith(weather: CurrentWeather) {
         DispatchQueue.main.async {
-            self.defaultChannelId = weather.cityName
+            self.channelId = weather.cityName
+            if let provider = self.chatProvider {
+                self.preloadData(provider) // Update chat provider with new channel data
+              }
             self.cityLabel.text = weather.cityName
             self.temperatureLabel.text = weather.temperatureString
             self.feelsLikeTemperatureLabel.text = weather.feelsLikeTemperatureString
