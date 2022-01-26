@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension ViewController {
+extension WeatherViewController {
     func presentSearchAlertController(withTitle title: String?, message: String?, style: UIAlertController.Style, completionHandler: @escaping (String) -> Void) {
         let ac = UIAlertController(title: title, message: message, preferredStyle: style)
         ac.addTextField { tf in
@@ -19,8 +19,7 @@ extension ViewController {
             guard let cityName = textField?.text else { return }
             if cityName != "" {
 //                self.networkWheatherManager.fetchCurrentWheather(forCity: cityName)
-                let city = cityName.split(separator: " ").joined(separator: "%20")
-                completionHandler(city)
+                completionHandler(cityName)
             }
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
