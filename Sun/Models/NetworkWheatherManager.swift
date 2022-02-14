@@ -20,7 +20,8 @@ class NetworkWeatherManager {
         switch requestType {
         case .cityName(let city):
           let encodedCity = city.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? city
-          urlString = "https://api.openweathermap.org/data/2.5/weather?q=\(encodedCity))&apikey=\(Constants.Weather.apiKey)&units=metric"
+          urlString = "https://api.openweathermap.org/data/2.5/weather?q=\(encodedCity)&apikey=\(Constants.Weather.apiKey)&units=metric"
+            
             
         case .coordinate(let latitude, let longitude):
             urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&apikey=\(Constants.Weather.apiKey)&units=metric"
